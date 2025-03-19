@@ -1,7 +1,7 @@
 /* Flight Tickets Page Styles */
 .flight-hero {
     position: relative;
-    height: 400px;
+    min-height: 400px;
     width: 100%;
     background-size: cover;
     background-position: center;
@@ -12,7 +12,6 @@
     border-radius: 15px;
     overflow: hidden;
 }
-
 .flight-hero::before {
     content: '';
     position: absolute;
@@ -20,29 +19,34 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
-    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.1));
+   
 }
 
+
 .flight-hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    color: white;
-    padding: 0 20px;
-    max-width: 800px;
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  color: white;
+  padding: 0 20px;
+  max-width: 600px;
 }
 
 .flight-hero-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    font-weight: 700;
+   font-family: monospace;
+   font-size: 2.5rem;
+   margin-bottom: 15px;
+   font-weight: 700;
+   z-index: 2;
 }
 
 .flight-hero-content p {
+    font-family: monospace;
     font-size: 1.1rem;
     margin-bottom: 25px;
     line-height: 1.6;
+    z-index: 2;
 }
 
 .flight-section {
@@ -334,7 +338,7 @@
 
 @media (max-width: 768px) {
     .flight-hero {
-        height: 350px;
+        height: 400px;
         background-position: center;
     }
     
@@ -356,9 +360,7 @@
 }
 
 @media (max-width: 576px) {
-    .flight-hero {
-        height: 300px;
-    }
+   
     
     .flight-hero-content h1 {
         font-size: 1.8rem;
@@ -388,6 +390,6 @@
 
 @media (max-width: 375px) {
     .flight-hero {
-        height: 250px;
+        max-height: 600px;
     }
 } 

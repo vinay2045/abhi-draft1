@@ -23,6 +23,7 @@
     <!-- Defer non-critical CSS -->
     <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="../css/honeymoon.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/components.css" media="print" onload="this.media='all'">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" media="print" onload="this.media='all'"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -85,6 +86,7 @@
             <div class="honeymoon-hero-content">
                 <h1>Honeymoon Packages</h1>
                 <p>Begin your journey of love with our specially crafted honeymoon packages to the world's most romantic destinations.</p>
+                <button class="cta-btn" onclick="document.querySelector('#honeymoon-booking-inquiry').scrollIntoView({ behavior: 'smooth' });">Book now</button>
             </div>
         </div>
         
@@ -209,7 +211,7 @@
         </div>
         
         <div class="honeymoon-section">
-            <h2 class="honeymoon-title">Plan Your Dream Honeymoon</h2>
+            <h2 class="honeymoon-title" id="honeymoon-booking-inquiry">Plan Your Dream Honeymoon</h2>
             <div class="honeymoon-form-container">
                 <form class="honeymoon-form">
                     <div class="honeymoon-form-row">

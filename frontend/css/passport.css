@@ -27,22 +27,27 @@
 .passport-hero-content {
     position: relative;
     z-index: 2;
-    text-align: center;
+    position: absolute;
     color: white;
     padding: 0 20px;
-    max-width: 800px;
+    max-width: 600px;
+    top: 40px;
+    left: 10px;
 }
 
 .passport-hero-content h1 {
     font-size: 2.5rem;
     margin-bottom: 15px;
     font-weight: 700;
+    font-family: monospace;
+
 }
 
 .passport-hero-content p {
     font-size: 1.1rem;
     margin-bottom: 25px;
     line-height: 1.6;
+    font-family: monospace;
 }
 
 .passport-section {
@@ -326,7 +331,7 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
     .passport-hero {
-        height: 350px;
+        height: 600px;
     }
     
     .passport-hero-content h1 {
@@ -354,15 +359,17 @@
 
 @media (max-width: 576px) {
     .passport-hero {
-        height: 300px;
+        height: 400px;
     }
     
     .passport-hero-content h1 {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
+        opacity: .6;
     }
     
     .passport-hero-content p {
         font-size: 1rem;
+        opacity: .6;
     }
     
     .service-cards {

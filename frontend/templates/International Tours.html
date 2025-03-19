@@ -23,6 +23,7 @@
     <!-- Defer non-critical CSS -->
     <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="../css/international-tours.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/components.css" media="print" onload="this.media='all'">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" media="print" onload="this.media='all'"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -32,6 +33,7 @@
     <noscript>
         <link rel="stylesheet" href="../css/main.css">
         <link rel="stylesheet" href="../css/international-tours.css">
+        <link rel="stylesheet" href="../css/components.css">
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -47,19 +49,13 @@
 <body>
     <div class="container">
         <nav>
-            <div id="nav-part1" style="display: none;">
+            <div id="nav-part1">
                 <i class="ri-menu-3-line"></i>
             </div>
             <div id="nav-part2">
                 <img src="../images/WhatsApp_Image_2025-03-17_at_19.38.53_85a826c5-removebg-preview.png" alt="Abhi Tours & Travels Logo">
             </div>
-            <div id="nav-part3">
-                <a href="index.html"><h3><span>Home</span> <span><i class='bx bxs-home-alt-2'></i></span></h3></a>
-                <a href="aboutus.html"><h3><span>About Us</span> <span><i class='bx bxs-invader'></i></span></h3></a>
-                <h3 id="ourservices"><span>Our Services</span> <span><i class='bx bxs-invader'></i></span></h3>
-                <h3 id="trips"><span>Trips</span> <span><i class='bx bxl-airbnb'></i></span></h3>
-                <a href="contactus.html"><h3>Contact Us <span><i class='bx bx-mail-send'></i></span></h3></a>
-            </div>
+            <div id="nav-part3" class="desktop-menu"></div>
             <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite">
                 <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
                     <mask class="moon" id="moon-mask">
@@ -85,6 +81,7 @@
             <div class="international-hero-content">
                 <h1>International Tours</h1>
                 <p>Explore the world's most captivating destinations with our meticulously crafted international tour packages.</p>
+                <button class="cta-btn" onclick="document.querySelector('#international-booking-inquiry').scrollIntoView({ behavior: 'smooth' });">Book now</button>
             </div>
         </div>
         
@@ -243,7 +240,7 @@
         </div>
         
         <div class="international-section">
-            <h2 class="international-title">Plan Your International Trip</h2>
+            <h2 class="international-title" id="international-booking-inquiry">Plan Your International Trip</h2>
             <div class="inquiry-form-container">
                 <form class="inquiry-form">
                     <div class="form-row">

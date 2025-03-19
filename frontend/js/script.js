@@ -29,13 +29,20 @@ document.addEventListener('DOMContentLoaded', function() {
     setupMenuAndUI();
 });
 
-// Make sure carousel is set up even if DOMContentLoaded has issues
+// Make sure carousel and menu are set up even if DOMContentLoaded has issues
 window.addEventListener('load', function() {
     const carouselTrack = document.getElementById('carouselTrack');
     // Check if carousel was already set up during DOMContentLoaded
     if (carouselTrack && carouselTrack.children.length === 0) {
         console.log('Fallback: Setting up carousel on window.load');
         setupHeroCarousel();
+    }
+    
+    // Ensure menu is set up correctly regardless of how page was loaded
+    const menuButton = document.getElementById('nav-part1');
+    if (menuButton) {
+        // If setupMenuAndUI hasn't been called yet, or we need to reinitialize
+        setupMenuAndUI();
     }
 });
 
@@ -289,213 +296,226 @@ function setupHeroCarousel() {
 
 // Menu and UI Setup Function
 function setupMenuAndUI() {
-    // Get the menu button and create the dropdown container
+    // Get the menu button and containers
     const menuButton = document.getElementById('nav-part1');
-    const menuContainer = document.createElement('div');
-    menuContainer.className = 'dropdown-menu';
-    menuContainer.style.display = 'none';
+    const desktopMenu = document.getElementById('nav-part3');
     
-    // Create menu content with proper structure
-    menuContainer.innerHTML = `
-        <div class="menu-section">
-            <a href="index.html" class="menu-item">Home</a>
-            <a href="aboutus.html" class="menu-item">About Us</a>
-            <div class="menu-item has-submenu">
-                <span>Our Services</span>
-                <div class="submenu" style="display: none;">
-                    <a href="Flight Tickets.html" class="submenu-item"><i class='bx bxs-plane-alt'></i> Flight Tickets</a>
-                    <a href="Apply For Passport Application.html" class="submenu-item"><i class='bx bxs-id-card'></i> Apply For Passport Application</a>
-                    <a href="visa for all countries.html" class="submenu-item"><i class='bx bxs-file-doc'></i> Visa For All Countries</a>
-                    <a href="honeymoonpackages.html" class="submenu-item"><i class='bx bxs-heart'></i> Honeymoon Packages</a>
-                    <a href="forex.html" class="submenu-item"><i class='bx bx-money'></i> Forex Services</a>
-                </div>
-            </div>
-            <div class="menu-item has-submenu">
-                <span>Trips</span>
-                <div class="submenu" style="display: none;">
-                    <a href="Domestic Tours.html" class="submenu-item"><i class='bx bxs-map'></i> Domestic Tours</a>
-                    <a href="International Tours.html" class="submenu-item"><i class='bx bx-globe'></i> International Tours</a>
-                </div>
-            </div>
-            <a href="contactus.html" class="menu-item">Contact Us</a>
-        </div>
-    `;
+    // Remove any existing dropdown menus to prevent duplication
+    const existingMenus = document.querySelectorAll('.dropdown-menu');
+    existingMenus.forEach(menu => menu.remove());
     
-    // Add styles for responsive menu
-    const menuStyles = document.createElement('style');
-    menuStyles.textContent = `
-        @media (max-width: 1024px) {
-            #nav-part1 {
-                display: flex !important;
-                align-items: center;
-                cursor: pointer;
-            }
-            
-            .dropdown-menu {
-                position: fixed;
-                top: 70px;
-                right: 0;
-                width: 280px;
-                max-width: 90%;
-                background-color: var(--bg-color, #333);
-                color: var(--text-color, white);
-                border-radius: 10px 0 0 10px;
-                padding: 15px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                z-index: 1000;
-                overflow-y: auto;
-                max-height: calc(100vh - 80px);
-                backdrop-filter: blur(5px);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                transition: all 0.3s ease;
-            }
-            
-            .menu-section {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            
-            .menu-item {
-                padding: 12px;
-                color: var(--text-color, white);
-                text-decoration: none;
-                border-radius: 8px;
-                transition: all 0.2s ease;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            
-            .menu-item:hover {
-                background-color: var(--card-bg, rgba(255, 255, 255, 0.1));
-            }
-            
-            .has-submenu > span {
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-            }
-            
-            .has-submenu > span::after {
-                content: '›';
-                font-size: 18px;
-                transform: rotate(90deg);
-                transition: transform 0.3s ease;
-            }
-            
-            .has-submenu.open > span::after {
-                transform: rotate(270deg);
-            }
-            
-            .submenu {
-                background-color: rgba(0, 0, 0, 0.2);
-                border-radius: 8px;
-                margin-top: 5px;
-                padding: 5px;
-                transition: all 0.3s ease;
-            }
-            
-            .submenu-item {
-                padding: 10px 15px;
-                color: var(--text-color, white);
-                text-decoration: none;
-                display: block;
-                border-radius: 6px;
-                margin: 3px 0;
-                transition: all 0.2s ease;
-            }
-            
-            .submenu-item:hover {
-                background-color: var(--card-bg, rgba(255, 255, 255, 0.1));
-                transform: translateX(3px);
-            }
-        }
+    // Create mobile dropdown menu
+    const mobileMenu = document.createElement('div');
+    mobileMenu.className = 'dropdown-menu-js';
+    mobileMenu.style.display = 'none';
+    
+    // Define common menu structure for both mobile and desktop
+    const menuItems = [
+        { type: 'link', text: 'Home', url: 'index.html', icon: 'bx bxs-home-alt-2' },
+        { type: 'link', text: 'About Us', url: 'aboutus.html', icon: 'bx bxs-invader' },
+        { 
+            type: 'dropdown', 
+            text: 'Our Services', 
+            id: 'ourservices',
+            icon: 'bx bxs-invader',
+            items: [
+                { text: 'Flight Tickets', url: 'Flight Tickets.html', icon: 'bx bxs-plane-alt' },
+                { text: 'Apply For Passport Application', url: 'Apply For Passport Application.html', icon: 'bx bxs-id-card' },
+                { text: 'Visa For All Countries', url: 'visa for all countries.html', icon: 'bx bxs-file-doc' },
+                { text: 'Honeymoon Packages', url: 'honeymoonpackages.html', icon: 'bx bxs-heart' },
+                { text: 'Forex Services', url: 'forex.html', icon: 'bx bx-money' }
+            ]
+        },
+        { 
+            type: 'dropdown', 
+            text: 'Trips', 
+            id: 'trips',
+            icon: 'bx bxl-airbnb',
+            items: [
+                { text: 'Domestic Tours', url: 'Domestic Tours.html', icon: 'bx bxs-map' },
+                { text: 'International Tours', url: 'International Tours.html', icon: 'bx bx-globe' }
+            ]
+        },
+        { type: 'link', text: 'Contact Us', url: 'contactus.html', icon: 'bx bx-mail-send' }
+    ];
+    
+    // Functions to generate menu HTML
+    function generateMobileMenuHTML() {
+        let html = '<div class="menu-section">';
         
-        @media (min-width: 1025px) {
-            #nav-part1 {
-                display: none !important;
+        menuItems.forEach(item => {
+            if (item.type === 'link') {
+                html += `<a href="${item.url}" class="menu-item">${item.text}</a>`;
+            } else if (item.type === 'dropdown') {
+                html += `
+                    <div class="menu-item has-submenu">
+                        <span>${item.text}</span>
+                        <div class="submenu" style="display: none;">
+                `;
+                
+                item.items.forEach(subItem => {
+                    html += `<a href="${subItem.url}" class="submenu-item"><i class='${subItem.icon}'></i> ${subItem.text}</a>`;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
             }
-            
-            .dropdown-menu {
-                display: none !important;
-            }
-        }
-    `;
+        });
+        
+        html += '</div>';
+        return html;
+    }
     
-    document.head.appendChild(menuStyles);
+    function generateDesktopMenuHTML() {
+        let html = '';
+        
+        menuItems.forEach(item => {
+            if (item.type === 'link') {
+                html += `<a href="${item.url}"><h3><span>${item.text}</span> <span><i class='${item.icon}'></i></span></h3></a>`;
+            } else if (item.type === 'dropdown') {
+                html += `<h3 id="${item.id}"><span>${item.text}</span> <span><i class='${item.icon}'></i></span></h3>`;
+            }
+        });
+        
+        return html;
+    }
+    
+    // Populate mobile menu
+    mobileMenu.innerHTML = generateMobileMenuHTML();
+    
+    // Populate desktop menu
+    desktopMenu.innerHTML = generateDesktopMenuHTML();
     
     // Insert dropdown menu after the navigation
     const nav = document.querySelector('nav');
-    nav.parentNode.insertBefore(menuContainer, nav.nextSibling);
+    nav.parentNode.insertBefore(mobileMenu, nav.nextSibling);
     
-    // Add toggle functionality to the menu button
-    menuButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        if (menuContainer.style.display === 'none') {
-            menuContainer.style.display = 'block';
-        } else {
-            menuContainer.style.display = 'none';
+    // Add CSS for consistent menu styling
+    const menuStyles = document.createElement('style');
+    menuStyles.textContent = `
+        /* Desktop Menu Styles */
+        #nav-part3.desktop-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 60%;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
-    });
-    
-    // Handle submenu toggles
-    const submenus = document.querySelectorAll('.has-submenu');
-    submenus.forEach(submenu => {
-        submenu.addEventListener('click', function(event) {
-        event.stopPropagation();
-            const submenuContent = this.querySelector('.submenu');
-            const hasOpenClass = this.classList.contains('open');
-            
-            // Close all other open submenus
-            document.querySelectorAll('.has-submenu.open').forEach(item => {
-                if (item !== this) {
-                    item.classList.remove('open');
-                    item.querySelector('.submenu').style.display = 'none';
-                }
-            });
-            
-            // Toggle current submenu
-            if (!hasOpenClass) {
-                this.classList.add('open');
-                submenuContent.style.display = 'block';
-            } else {
-                this.classList.remove('open');
-                submenuContent.style.display = 'none';
-            }
-        });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!menuButton.contains(event.target) && !menuContainer.contains(event.target)) {
-            menuContainer.style.display = 'none';
-            // Close all submenus
-            document.querySelectorAll('.submenu').forEach(submenu => {
-                submenu.style.display = 'none';
-            });
-            document.querySelectorAll('.has-submenu.open').forEach(item => {
-                item.classList.remove('open');
-            });
+        
+        #nav-part3.desktop-menu a i {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            font-weight: 900;
+            margin-left: .5rem;
         }
-    });
-    
-    // Create Our Services dropdown for desktop
-    const ourservices = document.getElementById('ourservices');
-    const ourservicesmenu = document.createElement('div');
-    ourservicesmenu.className = 'desktop-dropdown services-dropdown';
-    
-    // Create Trips dropdown for desktop
-    const trips = document.getElementById('trips');
-    const tripsmenu = document.createElement('div');
-    tripsmenu.className = 'desktop-dropdown trips-dropdown';
-    
-    // Add styles for desktop dropdown menus
-    const desktopDropdownStyle = document.createElement('style');
-    desktopDropdownStyle.textContent = `
+        
+        #nav-part3.desktop-menu a h3 {
+            display: flex;
+            align-items: center;
+        }
+        
+        nav h3 {
+            border: 1.5px solid var(--text-color);
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        
+        /* Mobile Menu Styles */
+        .dropdown-menu-js {
+            position: fixed;
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            padding: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            max-height: calc(80vh - 70px);
+            overflow-y: auto;
+            width: 250px;
+        }
+        
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .menu-item {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--card-bg);
+        }
+        
+        .has-submenu {
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .has-submenu > span {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .has-submenu > span::after {
+            content: '›';
+            font-size: 18px;
+            transform: rotate(90deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .has-submenu.open > span::after {
+            transform: rotate(270deg);
+        }
+        
+        .submenu {
+            position: relative;
+            left: 0;
+            top: 5px;
+            background-color: var(--bg-color);
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            margin-left: 10px;
+            max-height: calc(60vh - 70px);
+            overflow-y: auto;
+        }
+        
+        .submenu-item {
+            display: block;
+            padding: 6px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .submenu-item:hover {
+            background-color: var(--card-bg);
+        }
+        
+        /* Desktop Dropdowns */
         .desktop-dropdown {
             position: absolute;
             top: 100%;
@@ -543,103 +563,214 @@ function setupMenuAndUI() {
         #ourservices.active::after, #trips.active::after {
             transform: rotate(180deg);
         }
-    `;
-    document.head.appendChild(desktopDropdownStyle);
-
-    // Create menu content for Our Services desktop dropdown
-    ourservicesmenu.innerHTML = `
-        <div class="Section-ourservices">
-            <a href="Flight Tickets.html">Flight Tickets</a>
-            <a href="Apply For Passport Application.html">Apply For Passport Application</a>
-            <a href="visa for all countries.html">Visa For All Countries</a>
-            <a href="honeymoonpackages.html">Honeymoon Packages</a>
-            <a href="forex.html">Forex Services</a>
-        </div>
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            #nav-part1 {
+                display: flex !important;
+                align-items: center;
+                cursor: pointer;
+            }
+            
+            #nav-part3.desktop-menu {
+                display: none !important;
+            }
+            
+            /* Ensure dropdown menu has correct z-index */
+            .dropdown-menu-js {
+                z-index: 1010;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            #nav-part1 {
+                display: none !important;
+            }
+            
+            .dropdown-menu-js {
+                display: none !important;
+            }
+            
+            #nav-part3.desktop-menu {
+                display: flex !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dropdown-menu-js {
+                width: 240px;
+                top: 65px;
+                left: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .dropdown-menu-js {
+                width: 220px;
+                left: 10px;
+            }
+        }
     `;
     
-    // Create menu content for Trips desktop dropdown
-    tripsmenu.innerHTML = `
-        <div class="Section-trips">
-            <a href="Domestic Tours.html">Domestic Tours</a>
-            <a href="International Tours.html">International Tours</a>
-        </div>
-    `;
+    document.head.appendChild(menuStyles);
+    
+    // Create desktop dropdowns
+    const ourServicesDropdown = document.createElement('div');
+    ourServicesDropdown.className = 'desktop-dropdown services-dropdown';
+    
+    const tripsDropdown = document.createElement('div');
+    tripsDropdown.className = 'desktop-dropdown trips-dropdown';
+    
+    // Generate dropdowns content
+    let ourServicesHTML = '<div class="Section-ourservices">';
+    menuItems[2].items.forEach(item => {
+        ourServicesHTML += `<a href="${item.url}">${item.text}</a>`;
+    });
+    ourServicesHTML += '</div>';
+    
+    let tripsHTML = '<div class="Section-trips">';
+    menuItems[3].items.forEach(item => {
+        tripsHTML += `<a href="${item.url}">${item.text}</a>`;
+    });
+    tripsHTML += '</div>';
+    
+    ourServicesDropdown.innerHTML = ourServicesHTML;
+    tripsDropdown.innerHTML = tripsHTML;
     
     // Append dropdowns to the body
-    document.body.appendChild(ourservicesmenu);
-    document.body.appendChild(tripsmenu);
-
-    // Toggle Our Services dropdown
-    ourservices.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    document.body.appendChild(ourServicesDropdown);
+    document.body.appendChild(tripsDropdown);
+    
+    // Toggle mobile menu
+    menuButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        const isVisible = mobileMenu.style.display === 'block';
         
-        // Position the dropdown
-        const rect = this.getBoundingClientRect();
-        ourservicesmenu.style.left = rect.left + 'px';
-        ourservicesmenu.style.top = (rect.bottom + window.scrollY) + 'px';
+        // Toggle menu visibility
+        mobileMenu.style.display = isVisible ? 'none' : 'block';
         
-        // Toggle classes and display
-        this.classList.toggle('active');
-        trips.classList.remove('active');
-        
-        if (ourservicesmenu.style.display === 'block') {
-            ourservicesmenu.style.display = 'none';
-        } else {
-            ourservicesmenu.style.display = 'block';
-            tripsmenu.style.display = 'none';
+        // Position the menu - fixed positioning relative to menu button
+        if (!isVisible) {
+            const buttonRect = menuButton.getBoundingClientRect();
+            const navRect = nav.getBoundingClientRect();
+            
+            // Set fixed position relative to the nav element
+            mobileMenu.style.position = 'fixed';
+            mobileMenu.style.top = `${buttonRect.bottom}px`;
+            
+            // Adjust left position based on screen size
+            if (window.innerWidth <= 480) {
+                mobileMenu.style.left = '10px';
+            } else if (window.innerWidth <= 768) {
+                mobileMenu.style.left = '15px';
+            } else {
+                mobileMenu.style.left = '20px';
+            }
         }
     });
-
-    // Toggle Trips dropdown
-    trips.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Position the dropdown
-        const rect = this.getBoundingClientRect();
-        tripsmenu.style.left = rect.left + 'px';
-        tripsmenu.style.top = (rect.bottom + window.scrollY) + 'px';
-        
-        // Toggle classes and display
-        this.classList.toggle('active');
-        ourservices.classList.remove('active');
-        
-        if (tripsmenu.style.display === 'block') {
-            tripsmenu.style.display = 'none';
-        } else {
-            tripsmenu.style.display = 'block';
-            ourservicesmenu.style.display = 'none';
+    
+    // Update menu position when scrolling
+    window.addEventListener('scroll', function() {
+        if (mobileMenu.style.display === 'block') {
+            const buttonRect = menuButton.getBoundingClientRect();
+            mobileMenu.style.top = `${buttonRect.bottom}px`;
         }
     });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!ourservices.contains(e.target) && !ourservicesmenu.contains(e.target)) {
-            ourservicesmenu.style.display = 'none';
+    
+    // Handle mobile submenu toggles
+    const mobileSubmenus = mobileMenu.querySelectorAll('.has-submenu');
+    mobileSubmenus.forEach(submenu => {
+        submenu.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const submenuContent = this.querySelector('.submenu');
+            const hasOpenClass = this.classList.contains('open');
+            
+            // Close other submenus
+            mobileSubmenus.forEach(item => {
+                if (item !== this) {
+                    item.classList.remove('open');
+                    item.querySelector('.submenu').style.display = 'none';
+                }
+            });
+            
+            // Toggle current submenu
+            if (!hasOpenClass) {
+                this.classList.add('open');
+                submenuContent.style.display = 'block';
+            } else {
+                this.classList.remove('open');
+                submenuContent.style.display = 'none';
+            }
+        });
+    });
+    
+    // Handle desktop menu dropdowns
+    const ourservices = document.getElementById('ourservices');
+    const trips = document.getElementById('trips');
+    
+    if (ourservices) {
+        ourservices.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Position dropdown
+            const rect = this.getBoundingClientRect();
+            ourServicesDropdown.style.left = rect.left + 'px';
+            ourServicesDropdown.style.top = (rect.bottom + window.scrollY) + 'px';
+            
+            // Toggle dropdown
+            this.classList.toggle('active');
+            trips.classList.remove('active');
+            
+            const isVisible = ourServicesDropdown.style.display === 'block';
+            ourServicesDropdown.style.display = isVisible ? 'none' : 'block';
+            tripsDropdown.style.display = 'none';
+        });
+    }
+    
+    if (trips) {
+        trips.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Position dropdown
+            const rect = this.getBoundingClientRect();
+            tripsDropdown.style.left = rect.left + 'px';
+            tripsDropdown.style.top = (rect.bottom + window.scrollY) + 'px';
+            
+            // Toggle dropdown
+            this.classList.toggle('active');
+            ourservices.classList.remove('active');
+            
+            const isVisible = tripsDropdown.style.display === 'block';
+            tripsDropdown.style.display = isVisible ? 'none' : 'block';
+            ourServicesDropdown.style.display = 'none';
+        });
+    }
+    
+    // Close all menus when clicking outside
+    document.addEventListener('click', function(event) {
+        // Close mobile menu and submenus
+        if (!menuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+            mobileMenu.style.display = 'none';
+            mobileSubmenus.forEach(item => {
+                item.classList.remove('open');
+                item.querySelector('.submenu').style.display = 'none';
+            });
+        }
+        
+        // Close desktop dropdowns
+        if (ourservices && !ourservices.contains(event.target) && !ourServicesDropdown.contains(event.target)) {
+            ourServicesDropdown.style.display = 'none';
             ourservices.classList.remove('active');
         }
         
-        if (!trips.contains(e.target) && !tripsmenu.contains(e.target)) {
-            tripsmenu.style.display = 'none';
+        if (trips && !trips.contains(event.target) && !tripsDropdown.contains(event.target)) {
+            tripsDropdown.style.display = 'none';
             trips.classList.remove('active');
         }
     });
     
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 1024) {
-            // Hide mobile menu
-            menuContainer.style.display = 'none';
-            
-            // Show desktop navigation
-            const navPart3 = document.getElementById('nav-part3');
-            if (navPart3) {
-                navPart3.style.display = 'flex';
-            }
-        }
-    });
-
     // Create and add WhatsApp floating button
     const whatsappButton = document.createElement('a');
     whatsappButton.href = 'https://wa.me/+918886226565'; // Abhi Tours & Travels WhatsApp number
@@ -652,8 +783,8 @@ function setupMenuAndUI() {
     `;
 
     // Add styles for the WhatsApp button
-    const style = document.createElement('style');
-    style.textContent = `
+    const whatsappStyle = document.createElement('style');
+    whatsappStyle.textContent = `
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
@@ -709,7 +840,7 @@ function setupMenuAndUI() {
         }
     `;
 
-    document.head.appendChild(style);
+    document.head.appendChild(whatsappStyle);
     document.body.appendChild(whatsappButton);
 
     // Contact Form Popup Functionality
@@ -745,4 +876,30 @@ function setupMenuAndUI() {
             contactForm.reset();
         });
     }
+
+    // Also update resize event handler
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 1024) {
+            // Hide mobile menu
+            mobileMenu.style.display = 'none';
+            
+            // Show desktop navigation
+            if (desktopMenu) {
+                desktopMenu.style.display = 'flex';
+            }
+        } else if (mobileMenu.style.display === 'block') {
+            // Reposition the menu if it's visible during resize
+            const buttonRect = menuButton.getBoundingClientRect();
+            mobileMenu.style.top = `${buttonRect.bottom}px`;
+            
+            // Adjust left position based on new screen size
+            if (window.innerWidth <= 480) {
+                mobileMenu.style.left = '10px';
+            } else if (window.innerWidth <= 768) {
+                mobileMenu.style.left = '15px';
+            } else {
+                mobileMenu.style.left = '20px';
+            }
+        }
+    });
 }

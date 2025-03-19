@@ -229,3 +229,8 @@
     margin-bottom: 15px;
     top: 60px;
 } 
+@media (max-width: 480px) {
+    .card-content-white-bg {
+       top: 130px;
+    }
+}

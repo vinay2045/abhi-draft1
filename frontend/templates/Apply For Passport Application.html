@@ -23,6 +23,7 @@
     <!-- Defer non-critical CSS -->
     <link rel="stylesheet" href="../css/main.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="../css/passport.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/components.css" media="print" onload="this.media='all'">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" media="print" onload="this.media='all'"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -85,6 +86,7 @@
             <div class="passport-hero-content">
                 <h1>Passport Application Services</h1>
                 <p>We provide end-to-end assistance for new passport applications, renewals, and other passport-related services.</p>
+                <button class="cta-btn" onclick="document.querySelector('#passport-booking-inquiry').scrollIntoView({ behavior: 'smooth' });">Book now</button>
             </div>
         </div>
         
@@ -215,7 +217,7 @@
         <div class="passport-section">
             <div class="flex-row">
                 <div class="column">
-                    <h2 class="passport-title">Passport Application Enquiry</h2>
+                    <h2 class="passport-title" id="passport-booking-inquiry">Passport Application Enquiry</h2>
                     <div class="passport-form-container">
                         <form class="passport-form">
                             <div class="form-row">

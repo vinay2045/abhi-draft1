@@ -26,23 +26,28 @@
 
 .visa-hero-content {
     position: relative;
+    position: absolute;
     z-index: 2;
-    text-align: center;
+    
     color: white;
     padding: 0 20px;
-    max-width: 800px;
+    max-width: 600px;
+    top: 40px;
+    left: 10px;
 }
 
 .visa-hero-content h1 {
     font-size: 2.5rem;
     margin-bottom: 15px;
-    font-weight: 700;
+    font-weight: 600;
+    font-family: monospace;
 }
 
 .visa-hero-content p {
     font-size: 1.1rem;
     margin-bottom: 25px;
     line-height: 1.6;
+    font-family: monospace;
 }
 
 .visa-section {
@@ -385,7 +390,7 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
     .visa-hero {
-        height: 350px;
+        height: 600px;
     }
     
     .visa-hero-content h1 {
@@ -417,7 +422,7 @@
 
 @media (max-width: 576px) {
     .visa-hero {
-        height: 300px;
+        height: 450px;
     }
     
     .visa-hero-content h1 {
