@@ -1,0 +1,153 @@
+nav {
+    height: 70px;
+    width: 100%;
+    max-width: 1200px;
+  
+
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1000;
+   
+}
+
+#nav-part1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+}
+
+nav h3 {
+   
+    border: 1.5px solid var(--text-color);
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    
+}
+#nav-part2 img{
+    width: 200px;
+    height: 100px;
+    cursor: pointer;
+  
+}
+#nav-part4 h1{
+    font-size: rem;
+}
+
+nav h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+nav #nav-part1 i {
+    font-size: 20px;
+    border: 1.5px solid var(--text-color);
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+#nav-part3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 60%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+#nav-part3 a i {
+    font-size: 1.3rem;
+    color: var(--text-color);
+    font-weight: 900;
+    margin-left: .5rem;
+}
+
+#nav-part3 a h3 {
+    display: flex;
+    align-items: center;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-color);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    padding: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+
+.dropdown-menu {
+    width: 300px;
+    left: 12%;
+}
+
+.menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-item {
+    display: block;
+    padding: 10px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+.menu-item:hover {
+    background-color: var(--card-bg);
+}
+
+.has-submenu {
+    cursor: pointer;
+    position: relative;
+}
+
+.submenu {
+    display: none;
+    position: relative;
+    left: 0;
+    top: 10px;
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    margin-left: 15px;
+}
+
+.submenu-item {
+    display: block;
+    padding: 8px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+} 
