@@ -103,10 +103,3 @@ nav h1 {
     align-items: center;
 }
 
-/* Original dropdown-menu is left for any existing hardcoded menus */
-.dropdown-menu {
-    /* Keep existing styles for backward compatibility */
-}
-
-/* Our script.js will use dropdown-menu-js instead */
-/* The styles for dropdown-menu-js are injected via script.js */ 

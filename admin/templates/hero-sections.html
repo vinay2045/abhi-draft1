@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Sections Management - Abhi Tours & Travels</title>
+    <link rel="stylesheet" href="/admin/css/admin-styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="user-info">
+                <i class='bx bxs-user-circle'></i>
+                <span>Admin User</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Content Management</span>
+                    </li>
+                    <li><a href="/admin/carousel.html"><i class='bx bxs-slideshow'></i> Hero Carousel</a></li>
+                    <li><a href="/admin/blog-cards.html"><i class='bx bxs-book-content'></i> Blog Cards</a></li>
+                    <li class="active"><a href="/admin/hero-sections.html"><i class='bx bxs-image'></i> Hero Sections</a></li>
+                    <li><a href="/admin/tour-cards.html"><i class='bx bxs-map'></i> Tour Cards</a></li>
+                    <li><a href="/admin/honeymoon-cards.html"><i class='bx bxs-heart'></i> Honeymoon Cards</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Form Submissions</span>
+                    </li>
+                    <li><a href="/admin/contact-submissions.html"><i class='bx bxs-contact'></i> Contact</a></li>
+                    <li><a href="/admin/flight-submissions.html"><i class='bx bxs-plane'></i> Flight</a></li>
+                    <li><a href="/admin/visa-submissions.html"><i class='bx bxs-id-card'></i> Visa</a></li>
+                    <li><a href="/admin/honeymoon-submissions.html"><i class='bx bxs-heart'></i> Honeymoon</a></li>
+                    <li><a href="/admin/forex-submissions.html"><i class='bx bx-money'></i> Forex</a></li>
+                    <li><a href="/admin/tour-submissions.html"><i class='bx bxs-map'></i> Tour</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="logout"><i class='bx bx-log-out'></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h1>Hero Sections Management</h1>
+            </header>
+
+            <!-- Hero Section Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Update Hero Section</h2>
+                </div>
+                <div class="card-body">
+                    <form id="updateHeroSectionForm" class="api-form" action="/api/content/hero" method="POST" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="page">Page</label>
+                                <select id="page" name="page" required>
+                                    <option value="home">Home Page</option>
+                                    <option value="about">About Us</option>
+                                    <option value="services">Services</option>
+                                    <option value="tours">Tours</option>
+                                    <option value="honeymoon">Honeymoon</option>
+                                    <option value="contact">Contact</option>
+                                    <option value="forex">Forex</option>
+                                    <option value="visa">Visa</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" id="title" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subtitle">Subtitle</label>
+                                <input type="text" id="subtitle" name="subtitle" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="image">Background Image</label>
+                            <input type="file" id="image" name="image" accept="image/*">
+                            <div class="image-preview">
+                                <img src="#" alt="Preview" style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="loadHeroBtn" class="btn btn-secondary">Load Current Hero</button>
+                            <button type="submit" class="btn btn-primary">Update Hero Section</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Hero Sections List -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2>Current Hero Sections</h2>
+                </div>
+                <div class="card-body">
+                    <div id="heroSections" class="content-cards-grid">
+                        <p>Loading hero sections...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/admin/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load hero sections
+            fetchHeroSections();
+            
+            // Handle page selection change
+            const pageSelect = document.getElementById('page');
+            const loadHeroBtn = document.getElementById('loadHeroBtn');
+            
+            if (loadHeroBtn && pageSelect) {
+                loadHeroBtn.addEventListener('click', function() {
+                    const page = pageSelect.value;
+                    
+                    fetch(`/api/content/hero/${page}`, {
+                        credentials: 'include'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.data) {
+                            const form = document.getElementById('updateHeroSectionForm');
+                            form.querySelector('#title').value = data.data.title || '';
+                            form.querySelector('#subtitle').value = data.data.subtitle || '';
+                            
+                            // Show current image in preview
+                            const preview = form.querySelector('.image-preview img');
+                            if (preview && data.data.image) {
+                                preview.src = data.data.image;
+                                preview.style.display = 'block';
+                            }
+                            
+                            showAlert('Hero section data loaded!', 'success');
+                        } else {
+                            showAlert('No existing hero section found for this page. Create a new one.', 'info');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading hero section:', error);
+                        showAlert('Error loading hero section data.', 'danger');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

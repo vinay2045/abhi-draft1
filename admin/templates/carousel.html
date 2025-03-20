@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel Management - Abhi Tours & Travels</title>
+    <link rel="stylesheet" href="/admin/css/admin-styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="user-info">
+                <i class='bx bxs-user-circle'></i>
+                <span>Admin User</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Content Management</span>
+                    </li>
+                    <li class="active"><a href="/admin/carousel.html"><i class='bx bxs-slideshow'></i> Hero Carousel</a></li>
+                    <li><a href="/admin/blog-cards.html"><i class='bx bxs-book-content'></i> Blog Cards</a></li>
+                    <li><a href="/admin/hero-sections.html"><i class='bx bxs-image'></i> Hero Sections</a></li>
+                    <li><a href="/admin/tour-cards.html"><i class='bx bxs-map'></i> Tour Cards</a></li>
+                    <li><a href="/admin/honeymoon-cards.html"><i class='bx bxs-heart'></i> Honeymoon Cards</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Form Submissions</span>
+                    </li>
+                    <li><a href="/admin/contact-submissions.html"><i class='bx bxs-contact'></i> Contact</a></li>
+                    <li><a href="/admin/flight-submissions.html"><i class='bx bxs-plane'></i> Flight</a></li>
+                    <li><a href="/admin/visa-submissions.html"><i class='bx bxs-id-card'></i> Visa</a></li>
+                    <li><a href="/admin/honeymoon-submissions.html"><i class='bx bxs-heart'></i> Honeymoon</a></li>
+                    <li><a href="/admin/forex-submissions.html"><i class='bx bx-money'></i> Forex</a></li>
+                    <li><a href="/admin/tour-submissions.html"><i class='bx bxs-map'></i> Tour</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="logout"><i class='bx bx-log-out'></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h1>Homepage Carousel Management</h1>
+            </header>
+
+            <div class="form-container">
+                <h2>Add New Carousel Item</h2>
+                <form id="carouselForm" class="api-form" action="/api/content/carousel" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" class="form-control" required placeholder="e.g. Manali & Kashmir - ₹16,999">
+                    </div>
+                    <div class="form-group">
+                        <label for="heading">Heading</label>
+                        <input type="text" id="heading" name="heading" class="form-control" required placeholder="e.g. Explore the Paradise">
+                    </div>
+                    <div class="form-group">
+                        <label for="subheading">Subheading</label>
+                        <input type="text" id="subheading" name="subheading" class="form-control" required placeholder="e.g. Experience the serene beauty of north India">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <div class="image-preview">
+                            <img src="" alt="Preview" style="display: none;">
+                            <div class="placeholder">Image Preview</div>
+                        </div>
+                        <input type="file" id="image" name="image" class="form-control" required accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <div class="tags-input-container">
+                            <input type="hidden" name="tags" value="">
+                            <input type="text" class="tags-input" placeholder="Type and press Enter to add tags (e.g. Mountains, Nature)">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-warning">Reset</button>
+                        <button type="submit" class="btn btn-primary">Add Carousel Item</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Current Carousel Items</h2>
+                </div>
+                <div class="cards-grid" id="carouselItems">
+                    <p>Loading carousel items...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editCarouselModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Carousel Item</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCarouselForm" class="api-form" method="PUT" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group">
+                        <label for="edit-title">Title</label>
+                        <input type="text" id="edit-title" name="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-heading">Heading</label>
+                        <input type="text" id="edit-heading" name="heading" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-subheading">Subheading</label>
+                        <input type="text" id="edit-subheading" name="subheading" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-image">Image (Leave empty to keep current image)</label>
+                        <div class="image-preview">
+                            <img src="" alt="Preview" style="display: none;">
+                            <div class="placeholder">Current Image</div>
+                        </div>
+                        <input type="file" id="edit-image" name="image" class="form-control" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-tags">Tags</label>
+                        <div class="tags-input-container">
+                            <input type="hidden" name="tags" value="">
+                            <input type="text" class="tags-input" placeholder="Type and press Enter to add tags">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modal-cancel">Cancel</button>
+                <button class="btn btn-primary" onclick="document.getElementById('editCarouselForm').submit()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/admin/js/admin.js"></script>
+    <script>
+        // Set the form action dynamically for edit form
+        document.getElementById('editCarouselForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const id = this.querySelector('input[name="id"]').value;
+            this.action = `/api/content/carousel/${id}`;
+            
+            const formData = new FormData(this);
+            
+            fetch(this.action, {
+                method: 'PUT',
+                body: formData,
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('Carousel item updated successfully!', 'success');
+                    fetchCarouselItems();
+                    closeModal('editCarouselModal');
+                } else {
+                    showAlert('Error: ' + data.message, 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('An error occurred. Please try again later.', 'danger');
+            });
+        });
+    </script>
+</body>
+</html> 

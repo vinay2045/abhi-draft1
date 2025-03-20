@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup all other features
     setupMenuAndUI();
+    
+    // Handle form submissions
+    setupFormSubmissions();
 });
 
 // Make sure carousel and menu are set up even if DOMContentLoaded has issues
@@ -294,7 +297,9 @@ function setupHeroCarousel() {
     console.log('Slideshow initialized with ' + slides.length + ' slides');
 }
 
-// Menu and UI Setup Function
+/**
+ * Setup navigation menu and UI elements
+ */
 function setupMenuAndUI() {
     // Get the menu button and containers
     const menuButton = document.getElementById('nav-part1');
@@ -338,6 +343,20 @@ function setupMenuAndUI() {
         },
         { type: 'link', text: 'Contact Us', url: 'contactus.html', icon: 'bx bx-mail-send' }
     ];
+
+    // Update URL paths to ensure spaces are properly encoded
+    menuItems.forEach(item => {
+        if (item.url) {
+            item.url = item.url.replace(/ /g, '%20');
+        }
+        if (item.items) {
+            item.items.forEach(subItem => {
+                if (subItem.url) {
+                    subItem.url = subItem.url.replace(/ /g, '%20');
+                }
+            });
+        }
+    });
     
     // Functions to generate menu HTML
     function generateMobileMenuHTML() {
@@ -901,5 +920,37 @@ function setupMenuAndUI() {
                 mobileMenu.style.left = '20px';
             }
         }
+    });
+}
+
+/**
+ * Handle form submissions with AJAX
+ */
+function setupFormSubmissions() {
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            const url = form.getAttribute('action');
+            
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Form submitted successfully!');
+                    form.reset();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
+        });
     });
 }

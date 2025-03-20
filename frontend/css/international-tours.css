@@ -299,11 +299,21 @@
     width: 100%;
     padding: 10px 15px;
     border: 1px solid var(--border-color);
+   
     border-radius: 5px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    
+    
     font-size: 1rem;
     transition: border-color 0.3s ease;
+}
+#booking-travelers{
+    background-color:rgba(255, 255, 255, 0.05);
+    color: white;
+
+}
+#booking-travelers option{
+    background-color:black;
+   
 }
 
 .form-group input:focus,
@@ -311,6 +321,7 @@
 .form-group textarea:focus {
     outline: none;
     border-color: #1a8a9e;
+    color: white;
 }
 
 .form-group textarea {

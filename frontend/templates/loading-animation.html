@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abhi Tours & Travels Animation</title>
+  <!-- Updated Three.js CDN to latest version -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r146/three.min.js"></script>
+  <!-- Updated GSAP CDN to latest version -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/loading-animation.css">
+  <style>
+    /* Fallback styles in case the CSS file doesn't load */
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #f0f8ff;
+      font-family: Arial, sans-serif;
+    }
+    #animationCanvas {
+      display: block;
+      width: 100%;
+      height: 100vh;
+      z-index: 10;
+      position: relative;
+    }
+    #loadingText {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #1a8a9e;
+      font-size: 18px;
+      font-weight: bold;
+      z-index: 20;
+    }
+    .progress-container {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      z-index: 20;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #1a8a9e;
+      border-radius: 10px;
+    }
+    
+    /* Fallback animation container */
+    #fallbackAnimation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+    }
+    
+    .fallback-element {
+      position: absolute;
+    }
+    
+    #fallbackPlane {
+      width: 250px;
+      height: 80px;
+      transform: translateX(-300px);
+    }
+    
+    #fallbackPerson {
+      width: 80px;
+      height: 160px;
+      bottom: 100px;
+      left: 20%;
+    }
+    
+    #fallbackFamily {
+      width: 150px;
+      height: 160px;
+      bottom: 100px;
+      left: 10%;
+    }
+    
+    #fallbackCloud1, #fallbackCloud2, #fallbackCloud3 {
+      position: absolute;
+    }
+    
+    #fallbackCloud1 {
+      width: 100px;
+      top: 20%;
+      left: 10%;
+    }
+    
+    #fallbackCloud2 {
+      width: 120px;
+      top: 30%;
+      right: 20%;
+    }
+    
+    #fallbackCloud3 {
+      width: 80px;
+      top: 15%;
+      right: 40%;
+    }
+    
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Canvas -->
+  <canvas id="animationCanvas"></canvas>
+  
+  <!-- Progress and Status -->
+  <div class="progress-container">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+  <div id="loadingText">Loading your journey with Abhi Tours & Travels...</div>
+  
+  <!-- Fallback Animation in case Three.js fails -->
+  <div id="fallbackAnimation" class="hidden">
+    <!-- Fallback clouds -->
+    <svg id="fallbackCloud1" class="fallback-element" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+      <path d="M25,60 Q0,60 0,50 Q0,25 25,25 Q25,10 50,10 Q85,10 90,40 Q115,40 125,50 Q150,45 160,60 Q175,60 175,75 Q175,90 150,90 L50,90 Q25,90 25,60 Z" fill="#fff" stroke="none"/>
+    </svg>
+    
+    <svg id="fallbackCloud2" class="fallback-element" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+      <path d="M25,60 Q0,60 0,50 Q0,25 25,25 Q25,10 50,10 Q85,10 90,40 Q115,40 125,50 Q150,45 160,60 Q175,60 175,75 Q175,90 150,90 L50,90 Q25,90 25,60 Z" fill="#fff" stroke="none"/>
+    </svg>
+    
+    <svg id="fallbackCloud3" class="fallback-element" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+      <path d="M25,60 Q0,60 0,50 Q0,25 25,25 Q25,10 50,10 Q85,10 90,40 Q115,40 125,50 Q150,45 160,60 Q175,60 175,75 Q175,90 150,90 L50,90 Q25,90 25,60 Z" fill="#fff" stroke="none"/>
+    </svg>
+    
+    <!-- Fallback person -->
+    <svg id="fallbackPerson" class="fallback-element" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+      <!-- Hoodie -->
+      <path d="M70,150 Q100,130 130,150 L140,220 Q105,240 60,220 Z" fill="#f5f5f5" stroke="#000" stroke-width="2"/>
+      <!-- Head -->
+      <circle cx="100" cy="100" r="40" fill="#ffe0bd" stroke="#000" stroke-width="2"/>
+      <!-- Pants -->
+      <path d="M60,220 L50,350 H80 L90,220 M110,220 L120,350 H150 L140,220" fill="#000" stroke="#000" stroke-width="2"/>
+    </svg>
+    
+    <!-- Fallback family -->
+    <svg id="fallbackFamily" class="fallback-element" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+      <rect x="75" y="150" width="50" height="150" rx="10" fill="#1a8a9e" stroke="#000" stroke-width="2"/>
+      <circle cx="100" cy="100" r="40" fill="#ffe0bd" stroke="#000" stroke-width="2"/>
+      <rect x="175" y="150" width="50" height="150" rx="10" fill="#aaddee" stroke="#000" stroke-width="2"/>
+      <circle cx="200" cy="100" r="40" fill="#ffe0bd" stroke="#000" stroke-width="2"/>
+    </svg>
+    
+    <!-- Fallback airplane -->
+    <svg id="fallbackPlane" class="fallback-element" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+      <path d="M50,100 Q100,70 300,70 L500,70 Q550,70 550,100 Q550,130 500,130 L300,130 Q100,130 50,100 Z" fill="#fff" stroke="#000" stroke-width="3"/>
+      <path d="M250,130 L150,180 L350,180 L450,130" fill="#1a8a9e" stroke="#000" stroke-width="3"/>
+      <text x="180" y="110" font-family="Arial" font-size="24" font-weight="bold" fill="#1a8a9e">Abhi Tours</text>
+    </svg>
+  </div>
+
+  <script>
+    // Add error handling for library loading
+    window.addEventListener('error', function(e) {
+      console.error('Script error detected:', e.message);
+      document.getElementById('loadingText').innerText = 'Error loading animation: ' + e.message;
+      activateFallbackAnimation();
+    });
+    
+    // Verify Three.js loaded properly
+    window.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded');
+      if (typeof THREE === 'undefined') {
+        console.error('Three.js not loaded!');
+        document.getElementById('loadingText').innerText = 'Error: Three.js library not loaded.';
+        activateFallbackAnimation();
+      } else {
+        console.log('Three.js loaded successfully, version:', THREE.REVISION);
+      }
+      
+      if (typeof gsap === 'undefined') {
+        console.error('GSAP not loaded!');
+        document.getElementById('loadingText').innerText = 'Error: GSAP library not loaded.';
+        activateFallbackAnimation();
+      } else {
+        console.log('GSAP loaded successfully, version:', gsap.version);
+      }
+      
+      // Set a timeout to check if animation has started
+      setTimeout(function() {
+        const canvas = document.getElementById('animationCanvas');
+        if (canvas && !canvas.hasChildNodes() && canvas.getContext && !canvas.__threeRendererSet) {
+          console.warn('Animation may not have started. Activating fallback.');
+          activateFallbackAnimation();
+        }
+      }, 3000); // 3 seconds timeout
+    });
+    
+    // Fallback animation using direct SVGs and GSAP
+    function activateFallbackAnimation() {
+      document.getElementById('fallbackAnimation').classList.remove('hidden');
+      
+      // Create a simple GSAP timeline for fallback animation
+      const timeline = gsap.timeline({
+        onUpdate: function() {
+          // Update progress bar
+          document.getElementById('progressBar').style.width = (timeline.progress() * 100) + "%";
+          
+          // Update loading text based on progress
+          if (timeline.progress() < 0.3) {
+              document.getElementById('loadingText').innerText = "Preparing for your journey...";
+          } else if (timeline.progress() < 0.6) {
+              document.getElementById('loadingText').innerText = "Boarding flight with Abhi Tours & Travels...";
+          } else if (timeline.progress() < 0.9) {
+              document.getElementById('loadingText').innerText = "Taking off to amazing destinations...";
+          } else {
+              document.getElementById('loadingText').innerText = "Your adventure awaits!";
+          }
+        }
+      });
+      
+      // Animate clouds continuously
+      gsap.to('#fallbackCloud1', {
+        x: '+=100',
+        duration: 15,
+        repeat: -1,
+        ease: "none"
+      });
+      
+      gsap.to('#fallbackCloud2', {
+        x: '-=120',
+        duration: 20,
+        repeat: -1,
+        ease: "none"
+      });
+      
+      gsap.to('#fallbackCloud3', {
+        x: '+=80',
+        duration: 18,
+        repeat: -1,
+        ease: "none"
+      });
+      
+      // Person walks to plane
+      timeline.to('#fallbackPerson', {
+        x: '+=200',
+        duration: 4,
+        ease: "power1.inOut"
+      }, 0);
+      
+      // Person disappears
+      timeline.to('#fallbackPerson', {
+        opacity: 0,
+        duration: 1
+      }, 4);
+      
+      // Plane moves and takes off
+      timeline.to('#fallbackPlane', {
+        x: '+=300',
+        duration: 3
+      }, 5);
+      
+      timeline.to('#fallbackPlane', {
+        x: '+=200',
+        y: '-=200',
+        duration: 4
+      }, 8);
+      
+      // Plane disappears
+      timeline.to('#fallbackPlane', {
+        opacity: 0,
+        duration: 1
+      }, 12);
+      
+      // Family waves goodbye
+      timeline.to('#fallbackFamily', {
+        y: '-=5',
+        duration: 0.5,
+        repeat: 4,
+        yoyo: true
+      }, 0);
+    }
+  </script>
+
+  <!-- Custom Animation Script -->
+  <script src="../js/loading-animation.js"></script>
+</body>
+</html> 

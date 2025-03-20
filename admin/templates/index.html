@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Abhi Tours & Travels</title>
+    <link rel="stylesheet" href="/admin/css/admin-styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="user-info">
+                <i class='bx bxs-user-circle'></i>
+                <span>Admin User</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="/admin/"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Content Management</span>
+                    </li>
+                    <li><a href="/admin/carousel.html"><i class='bx bxs-slideshow'></i> Hero Carousel</a></li>
+                    <li><a href="/admin/blog-cards.html"><i class='bx bxs-book-content'></i> Blog Cards</a></li>
+                    <li><a href="/admin/hero-sections.html"><i class='bx bxs-image'></i> Hero Sections</a></li>
+                    <li><a href="/admin/tour-cards.html"><i class='bx bxs-map'></i> Tour Cards</a></li>
+                    <li><a href="/admin/honeymoon-cards.html"><i class='bx bxs-heart'></i> Honeymoon Cards</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Form Submissions</span>
+                    </li>
+                    <li><a href="/admin/contact-submissions.html"><i class='bx bxs-contact'></i> Contact</a></li>
+                    <li><a href="/admin/flight-submissions.html"><i class='bx bxs-plane'></i> Flight</a></li>
+                    <li><a href="/admin/visa-submissions.html"><i class='bx bxs-id-card'></i> Visa</a></li>
+                    <li><a href="/admin/honeymoon-submissions.html"><i class='bx bxs-heart'></i> Honeymoon</a></li>
+                    <li><a href="/admin/forex-submissions.html"><i class='bx bx-money'></i> Forex</a></li>
+                    <li><a href="/admin/tour-submissions.html"><i class='bx bxs-map'></i> Tour</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="logout"><i class='bx bx-log-out'></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h1>Dashboard</h1>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bxs-contact'></i></div>
+                    <div class="stat-content">
+                        <h3>Contact Submissions</h3>
+                        <p class="stat-value" id="contactCount">Loading...</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bxs-plane'></i></div>
+                    <div class="stat-content">
+                        <h3>Flight Bookings</h3>
+                        <p class="stat-value" id="flightCount">Loading...</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bxs-id-card'></i></div>
+                    <div class="stat-content">
+                        <h3>Visa Applications</h3>
+                        <p class="stat-value" id="visaCount">Loading...</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bxs-heart'></i></div>
+                    <div class="stat-content">
+                        <h3>Honeymoon Packages</h3>
+                        <p class="stat-value" id="honeymoonCount">Loading...</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bx-money'></i></div>
+                    <div class="stat-content">
+                        <h3>Forex Requests</h3>
+                        <p class="stat-value" id="forexCount">Loading...</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bxs-map'></i></div>
+                    <div class="stat-content">
+                        <h3>Tour Bookings</h3>
+                        <p class="stat-value" id="tourCount">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2>Recent Submissions</h2>
+                </div>
+                <div class="card-body">
+                    <div id="recentSubmissions">
+                        <p>Loading recent activity...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions">
+                        <a href="/admin/carousel.html" class="btn btn-primary">
+                            <i class='bx bxs-slideshow'></i> Manage Carousel
+                        </a>
+                        <a href="/admin/blog-cards.html" class="btn btn-primary">
+                            <i class='bx bxs-book-content'></i> Manage Blog Cards
+                        </a>
+                        <a href="/admin/tour-cards.html" class="btn btn-primary">
+                            <i class='bx bxs-map'></i> Manage Tour Cards
+                        </a>
+                        <a href="/admin/contact-submissions.html" class="btn btn-secondary">
+                            <i class='bx bxs-contact'></i> View Contact Submissions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/admin/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load dashboard data
+            fetchDashboardStats();
+            fetchRecentSubmissions();
+        });
+    </script>
+</body>
+</html> 

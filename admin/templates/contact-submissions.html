@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Submissions - Abhi Tours & Travels</title>
+    <link rel="stylesheet" href="/admin/css/admin-styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="user-info">
+                <i class='bx bxs-user-circle'></i>
+                <span>Admin User</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/"><i class='bx bxs-dashboard'></i> Dashboard</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Content Management</span>
+                    </li>
+                    <li><a href="/admin/carousel.html"><i class='bx bxs-slideshow'></i> Hero Carousel</a></li>
+                    <li><a href="/admin/blog-cards.html"><i class='bx bxs-book-content'></i> Blog Cards</a></li>
+                    <li><a href="/admin/hero-sections.html"><i class='bx bxs-image'></i> Hero Sections</a></li>
+                    <li><a href="/admin/tour-cards.html"><i class='bx bxs-map'></i> Tour Cards</a></li>
+                    <li><a href="/admin/honeymoon-cards.html"><i class='bx bxs-heart'></i> Honeymoon Cards</a></li>
+                    
+                    <li class="nav-section">
+                        <span class="nav-section-title">Form Submissions</span>
+                    </li>
+                    <li class="active"><a href="/admin/contact-submissions.html"><i class='bx bxs-contact'></i> Contact</a></li>
+                    <li><a href="/admin/flight-submissions.html"><i class='bx bxs-plane'></i> Flight</a></li>
+                    <li><a href="/admin/visa-submissions.html"><i class='bx bxs-id-card'></i> Visa</a></li>
+                    <li><a href="/admin/honeymoon-submissions.html"><i class='bx bxs-heart'></i> Honeymoon</a></li>
+                    <li><a href="/admin/forex-submissions.html"><i class='bx bx-money'></i> Forex</a></li>
+                    <li><a href="/admin/tour-submissions.html"><i class='bx bxs-map'></i> Tour</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="logout"><i class='bx bx-log-out'></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h1>Contact Form Submissions</h1>
+            </header>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>All Contact Submissions</h2>
+                </div>
+                <div id="contactSubmissions">
+                    <p>Loading submissions...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/admin/js/admin.js"></script>
+    <script>
+        // Load submissions when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchContactSubmissions();
+        });
+    </script>
+</body>
+</html> 

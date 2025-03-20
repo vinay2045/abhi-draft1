@@ -2106,7 +2106,7 @@ nav a {
 /* Booking popup styles */
 .booking-popup-content {
     max-width: 450px;
-    max-height: 85vh;
+    max-height: 65vh;
     overflow-y: auto;
     padding: 20px;
 }
@@ -2158,15 +2158,22 @@ nav a {
 .booking-popup-content input,
 .booking-popup-content select,
 .booking-popup-content textarea {
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    border-radius: 5px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
 .booking-popup-content input:focus,
 .booking-popup-content select:focus,
 .booking-popup-content textarea:focus {
     border-color: #1a8a9e;
+   
+    color: var(--text-color);
     box-shadow: 0 0 0 2px rgba(26, 138, 158, 0.2);
 }
 
@@ -2262,6 +2269,7 @@ nav a {
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
+    color: white;
     border-color: #007bff;
     background-color: rgba(255, 255, 255, 0.1);
 }
